@@ -1,3 +1,5 @@
+image: Ubuntu2204 # образ для сборки
+
 stack: node 23 # окружение
 
 branches:
