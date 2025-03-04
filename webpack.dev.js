@@ -11,7 +11,6 @@ module.exports = merge(common, {
     historyApiFallback: true,
     open: true,
     compress: true,
-    port: 9000,
   },
   plugins: [
     // Only update what has changed on hot reload

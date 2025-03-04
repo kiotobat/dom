@@ -1,26 +1,48 @@
-const path = require('path');
+const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  // Точка входа вашего приложения
-  entry: './src/index.js',
-  // Настройка вывода: куда собирать файлы
+  target: "web",
   output: {
-    // Папка, куда будет собираться проект
-    path: path.resolve(__dirname, 'dist'),
-    // Имя выходного файла
-    filename: 'bundle.js',
-    // Опционально: очищать папку dist перед каждой сборкой
-    clean: true,
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "",
   },
-  // Здесь можно добавить настройки загрузчиков (loaders) и плагины
   module: {
     rules: [
-      // Пример: загрузчик для JavaScript
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: {
+          loader: "babel-loader",
+        },
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "html-loader",
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
       },
     ],
   },
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html",
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+    }),
+  ],
 };
